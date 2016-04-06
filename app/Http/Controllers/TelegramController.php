@@ -11,6 +11,7 @@ use Telegram;
 
 class TelegramController extends Controller
 {
+    private $db = [];
     /**
      * Display a listing of the resource.
      *
@@ -18,16 +19,53 @@ class TelegramController extends Controller
      */
     public function index()
     {
+        $update = (Telegram::getUpdates());
+        $update = end($update);
+        $update = $update->recentMessage();
 
-        //$response = Telegram::getMe();
-        //var_dump($response);
+        $comando = explode(' ', $update['text']) ;
+        $chatId =  $update['chat']['id'] ;
 
-        $updates = Telegram::getUpdates();
-        dd($updates);
+        //dd($chatId);
 
-        //Telegram::sendMessage(
-            //['chat_id' => '-68814066',
-            //'text' => 'lindo!']);
+        switch ($comando[1]) {
+            case 'oi':
+                Telegram::sendMessage(
+                    [
+                        'chat_id' => $chatId,
+                        'text' => 'PHP é lindo!'
+                    ]
+                );
+
+                break;
+            case 'java':
+                Telegram::sendMessage(
+                    [
+                        'chat_id' => $chatId,
+                        'text' => 'Tenho um conhecido que falou: Java é mais perfomático que PHP! Hoje ele está desempregado'
+                    ]
+                );
+
+                break;
+            case 'noob':
+                Telegram::sendMessage(
+                    [
+                        'chat_id' => $chatId,
+                        'text' => 'Tenho um conhecido que falou: Java é mais perfomático que PHP! Hoje ele está desempregado'
+                    ]
+                );
+
+                break;
+            default:
+                Telegram::sendMessage(
+                    [
+                        'chat_id' => $chatId,
+                        'text' => 'Cesar Draw que eu conheço é muito noob!'
+                    ]
+                );
+
+                break;
+        }
     }
 
     /**
@@ -59,7 +97,6 @@ class TelegramController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -82,7 +119,7 @@ class TelegramController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
