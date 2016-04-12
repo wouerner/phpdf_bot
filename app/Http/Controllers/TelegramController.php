@@ -21,10 +21,10 @@ class TelegramController extends Controller
     {
         $update = Telegram::getWebhookUpdates();
 
-        $update = end($update);
-        $update = $update->recentMessage();
+        //$update = end($update);
+        //$update = $update->recentMessage();
 
-        //$this->falar($update);
+        $this->falar($update);
         dd($update);
 
     }
