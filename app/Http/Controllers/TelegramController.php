@@ -65,7 +65,7 @@ class TelegramController extends Controller
             case 'noob':
                 Telegram::sendPhoto([
                     'chat_id' => $chatId,
-                    'photo' => public_path('public').'/noob.jpg',
+                    'photo' => public_path().'/noob.jpg',
                     'caption' => 'Noob!!!'
                 ]);
 
