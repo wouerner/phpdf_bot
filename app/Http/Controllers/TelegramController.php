@@ -16,16 +16,13 @@ class TelegramController extends Controller
         $update = Telegram::getWebhookUpdates();
 
         $update = end($update);
-        $update = $update->recentMessage();
+        $update = $update['message'];
 
-        Telegram::sendMessage(
-            [
-                'chat_id' => 173987971,
-                'text' => 'PHP é lindo!'
-            ]
-        );
+        #$comando = explode(' ', $update['text']) ;
+        #$chatId =  $update['chat']['id'] ;
 
-        //$this->falar($update);
+
+        $this->falar($update);
     }
 
     public function manual()
