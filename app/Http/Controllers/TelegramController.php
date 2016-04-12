@@ -11,16 +11,12 @@ use Config;
 
 class TelegramController extends Controller
 {
-    public function index()
-    {
-        $update = Telegram::getWebhookUpdates();
-
-        $this->falar($update);
-    }
-
     public function webhook()
     {
         $update = Telegram::getWebhookUpdates();
+
+        $update = end($update);
+        $update = $update->recentMessage();
 
         $this->falar($update);
     }
@@ -81,34 +77,19 @@ class TelegramController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $path = public_path() . '/phpdfbot_public.pem';
         $token = Config::get('telegram.bot_token');
-        // Or if you are supplying a self-signed-certificate
+
         $response = Telegram::setWebhook([
             'url' => "https://phpdfbot.wouerner.in/$token/webhook",
-            'certificate' => $path
         ]);
         dd($response);
-
     }
 
-    /**
-     * Remove webhook.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $response = Telegram::removeWebhook();
         dd($response);
     }
-
 }
