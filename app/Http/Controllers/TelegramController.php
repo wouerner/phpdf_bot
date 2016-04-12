@@ -63,12 +63,11 @@ class TelegramController extends Controller
 
                 break;
             case 'noob':
-                Telegram::sendMessage(
-                    [
-                        'chat_id' => $chatId,
-                        'text' => 'Tenho um conhecido que falou: Java é mais perfomático que PHP! Hoje ele está desempregado'
-                    ]
-                );
+                Telegram::sendPhoto([
+                    'chat_id' => $chatId,
+                    'photo' => public_path('public').'/noob.jpg',
+                    'caption' => 'Noob!!!'
+                ]);
 
                 break;
             default:
