@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 //Route::resource('telegram', 'TelegramController');
 
-Route::get('{token}/index', array('as' => 'index', 'uses' => 'TelegramController@index'));
 Route::post('{token}/index', array('as' => 'index', 'uses' => 'TelegramController@index'));
+Route::get('{token}/index', array('as' => 'index', 'uses' => 'TelegramController@index'));
 
 Route::get('{token}/manual', array('as' => 'manual', 'uses' => 'TelegramController@manual'));
 

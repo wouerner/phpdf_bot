@@ -12,7 +12,6 @@ use Config;
 
 class TelegramController extends Controller
 {
-    private $db = [];
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +19,6 @@ class TelegramController extends Controller
      */
     public function index()
     {
-        //$update = (Telegram::getUpdates());
         $update = Telegram::getWebhookUpdates();
 
         $update = end($update);
@@ -43,8 +41,6 @@ class TelegramController extends Controller
         $update = $update->recentMessage();
 
         $this->falar($update);
-
-        //dd($update);
     }
 
     private function falar($update)
@@ -91,7 +87,6 @@ class TelegramController extends Controller
 
                 break;
         }
-
     }
 
     /**
@@ -101,56 +96,14 @@ class TelegramController extends Controller
      */
     public function create()
     {
+        $path = public_path() . '/phpdfbot_public.pem';
         $token = Config::get('telegram.bot_token');
         // Or if you are supplying a self-signed-certificate
         $response = Telegram::setWebhook([
             'url' => "https://phpdfbot.wouerner.in/$token/index",
-            'certificate' => '/etc/apache2/ssl/phpdfbot_public.pem'
+            'certificate' => $path
         ]);
         dd($response);
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
 
     }
 
