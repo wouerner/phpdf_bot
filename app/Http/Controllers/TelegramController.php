@@ -24,7 +24,8 @@ class TelegramController extends Controller
         $update = end($update);
         $update = $update->recentMessage();
 
-        $this->falar($update);
+        //$this->falar($update);
+        dd($update);
 
     }
 
