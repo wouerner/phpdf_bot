@@ -92,7 +92,7 @@ class TelegramController extends Controller
         $token = Config::get('telegram.bot_token');
         // Or if you are supplying a self-signed-certificate
         $response = Telegram::setWebhook([
-            'url' => "https://phpdfbot.wouerner.in/$token/index",
+            'url' => "https://phpdfbot.wouerner.in/$token/webhook",
             'certificate' => $path
         ]);
         dd($response);
