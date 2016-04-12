@@ -26,6 +26,29 @@ class TelegramController extends Controller
         $update = end($update);
         $update = $update->recentMessage();
 
+        $this->falar($update);
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function manual()
+    {
+        $update = Telegram::getUpdates();
+
+        $update = end($update);
+        $update = $update->recentMessage();
+
+        $this->falar($update);
+
+        //dd($update);
+    }
+
+    private function falar($update)
+    {
         $comando = explode(' ', $update['text']) ;
         $chatId =  $update['chat']['id'] ;
 
@@ -68,21 +91,7 @@ class TelegramController extends Controller
 
                 break;
         }
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function manual()
-    {
-        $update = Telegram::getUpdates();
-
-        $update = end($update);
-        $update = $update->recentMessage();
-
-        dd($update);
     }
 
     /**
