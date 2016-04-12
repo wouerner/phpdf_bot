@@ -70,15 +70,6 @@ class TelegramController extends Controller
                 ]);
 
                 break;
-            default:
-                Telegram::sendMessage(
-                    [
-                        'chat_id' => $chatId,
-                        'text' => 'Cesar Draw que eu conheço é muito noob!'
-                    ]
-                );
-
-                break;
         }
     }
 
