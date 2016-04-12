@@ -6,34 +6,25 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-//use Irazasyed\Telegram\Telegram;
 use Telegram;
 use Config;
 
 class TelegramController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $update = Telegram::getWebhookUpdates();
 
-        //$update = end($update);
-        //$update = $update->recentMessage();
-
         $this->falar($update);
-        dd($update);
-
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function webhook()
+    {
+        $update = Telegram::getWebhookUpdates();
+
+        $this->falar($update);
+    }
+
     public function manual()
     {
         $update = Telegram::getUpdates();
