@@ -23,3 +23,5 @@ Route::get('{token}/manual', array('as' => 'manual', 'uses' => 'TelegramControll
 
 Route::get('{token}/create', array('as' => 'create', 'uses' => 'TelegramController@create'));
 Route::get('{token}/destroy', array('as' => 'delete', 'uses' => 'TelegramController@destroy'));
+
+Route::get('{token}/tirinhas', array('as' => 'tirinhas', 'uses' => 'TelegramController@tirinhas'));

@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Telegram;
 use Config;
+use GuzzleHttp\Client;
+use Storage;
 
 class TelegramController extends Controller
 {
@@ -29,7 +31,7 @@ class TelegramController extends Controller
     {
         $update = Telegram::getUpdates();
 
-        dd($update);
+        //dd($update);
 
         $update = end($update);
         $update = $update->recentMessage();
@@ -70,6 +72,9 @@ class TelegramController extends Controller
                 ]);
 
                 break;
+            case 'tirinhas':
+                $this->tirinhas($chatId);
+                break;
         }
     }
 
@@ -88,4 +93,49 @@ class TelegramController extends Controller
         $response = Telegram::removeWebhook();
         dd($response);
     }
+
+    public function tirinhas($chatId)
+    {
+        $update = Telegram::getUpdates();
+
+        $client = new Client();
+        $res = $client->request('GET', 'http://vdpr.org/rand');
+        //echo $res->getStatusCode();
+        //echo $res->getHeader('content-type');
+         $text = ($res->getBody()->getContents());
+
+        $dom = new \DOMDocument('1.0');
+        @$dom->loadHTML($text);
+
+        $l = '/html/body/div[2]/div/div[3]/div[2]/div/article/p[1]/a/img';
+        $xpath = new \DOMXPath($dom);
+        // returns a list of all links with rel=nofollow
+        $nlist = $xpath->query($l);
+
+        $img =null;
+        foreach($nlist as $n){
+             $img= $n->getAttribute('src');
+        }
+
+        $file = file_get_contents($img);
+
+        $rand = rand();
+
+        Storage::disk('local')->put($rand.'.png', $file);
+
+        $path = storage_path('app/'.$rand.'.png');
+        //dd($path);
+
+        //die;
+
+        Telegram::sendPhoto([
+            'chat_id' => $chatId,
+            'photo' => $path,
+            'caption' => ''
+        ]);
+
+        //header("content-type: image/png");
+        //echo $file;
+    }
+
 }
