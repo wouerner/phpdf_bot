@@ -20,18 +20,12 @@ class TelegramController extends Controller
         $update = end($update);
         $update = $update['message'];
 
-        #$comando = explode(' ', $update['text']) ;
-        #$chatId =  $update['chat']['id'] ;
-
-
         $this->falar($update);
     }
 
     public function manual()
     {
         $update = Telegram::getUpdates();
-
-        //dd($update);
 
         $update = end($update);
         $update = $update->recentMessage();
@@ -94,15 +88,12 @@ class TelegramController extends Controller
         dd($response);
     }
 
-    public function tirinhas($chatId)
+    private function tirinhas($chatId)
     {
-        $update = Telegram::getUpdates();
 
         $client = new Client();
         $res = $client->request('GET', 'http://vdpr.org/rand');
-        //echo $res->getStatusCode();
-        //echo $res->getHeader('content-type');
-         $text = ($res->getBody()->getContents());
+        $text = ($res->getBody()->getContents());
 
         $dom = new \DOMDocument('1.0');
         @$dom->loadHTML($text);
@@ -112,9 +103,9 @@ class TelegramController extends Controller
         // returns a list of all links with rel=nofollow
         $nlist = $xpath->query($l);
 
-        $img =null;
+        $img = null;
         foreach($nlist as $n){
-             $img= $n->getAttribute('src');
+             $img = $n->getAttribute('src');
         }
 
         $file = file_get_contents($img);
@@ -124,18 +115,11 @@ class TelegramController extends Controller
         Storage::disk('local')->put($rand.'.png', $file);
 
         $path = storage_path('app/'.$rand.'.png');
-        //dd($path);
-
-        //die;
 
         Telegram::sendPhoto([
             'chat_id' => $chatId,
             'photo' => $path,
-            'caption' => ''
+            'caption' => 'Humm'
         ]);
-
-        //header("content-type: image/png");
-        //echo $file;
     }
-
 }
